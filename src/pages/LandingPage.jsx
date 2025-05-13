@@ -300,9 +300,6 @@ export default function LandingPage() {
         browser make sure to back up your data.
       </div>
       <hr className="border-zinc-300" />
-      <div className="text-center text-sm py-3">
-        &copy; 2024 <strong>drawDB</strong> - All right reserved.
-      </div>
     </div>
   );
 }

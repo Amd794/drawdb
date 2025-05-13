@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import LayoutContextProvider from "../context/LayoutContext";
 import TransformContextProvider from "../context/TransformContext";
 import TablesContextProvider from "../context/DiagramContext";
@@ -12,6 +13,10 @@ import EnumsContextProvider from "../context/EnumsContext";
 import WorkSpace from "../components/Workspace";
 
 export default function Editor() {
+  useEffect(() => {
+    document.title = "drawDB | Online database diagram editor and SQL generator";
+  }, []);
+
   return (
     <LayoutContextProvider>
       <TransformContextProvider>

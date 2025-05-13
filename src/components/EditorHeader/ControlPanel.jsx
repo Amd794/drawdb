@@ -1400,21 +1400,6 @@ export default function ControlPanel({
         },
       },
     },
-    help: {
-      docs: {
-        function: () => window.open(`${socials.docs}`, "_blank"),
-        shortcut: "Ctrl+H",
-      },
-      shortcuts: {
-        function: () => window.open(`${socials.docs}/shortcuts`, "_blank"),
-      },
-      ask_on_discord: {
-        function: () => window.open(socials.discord, "_blank"),
-      },
-      report_bug: {
-        function: () => window.open("/bug-report", "_blank"),
-      },
-    },
   };
 
   useHotkeys("mod+i", fileImport, { preventDefault: true });
@@ -1456,17 +1441,27 @@ export default function ControlPanel({
             style={isRtl(i18n.language) ? { direction: "rtl" } : {}}
           >
             {header()}
-            {window.name.split(" ")[0] !== "t" && (
+            <div className="flex items-center">
+              {window.name.split(" ")[0] !== "t" && (
+                <Button
+                  type="primary"
+                  className="!text-base me-2 !pe-6 !ps-5 !py-[18px] !rounded-md"
+                  size="default"
+                  onClick={() => navigate("/templates")}
+                >
+                  {t("templates")}
+                </Button>
+              )}
               <Button
-                type="primary"
-                className="!text-base me-2 !pe-6 !ps-5 !py-[18px] !rounded-md"
+                type="tertiary"
+                className="!text-base !pe-6 !ps-5 !py-[18px] !rounded-md border border-blue-300 text-blue-500 hover:text-blue-700 hover:bg-blue-50"
                 size="default"
-                icon={<IconShareStroked />}
-                onClick={() => setModal(MODAL.SHARE)}
+                icon={<i className="bi bi-tools me-2"></i>}
+                onClick={() => window.open("https://tools.cmdragon.cn/zh", "_blank")}
               >
-                {t("share")}
+                {t("cmdragon_tools")}
               </Button>
-            )}
+            </div>
           </div>
         )}
         {layout.toolbar && toolbar()}

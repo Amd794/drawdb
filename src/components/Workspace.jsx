@@ -407,92 +407,99 @@ export default function WorkSpace() {
   }, [load]);
 
   return (
-    <div className="h-full flex flex-col overflow-hidden theme">
-      <IdContext.Provider value={{ gistId, setGistId }}>
-        <ControlPanel
-          diagramId={id}
-          setDiagramId={setId}
-          title={title}
-          setTitle={setTitle}
-          lastSaved={lastSaved}
-          setLastSaved={setLastSaved}
-        />
-      </IdContext.Provider>
+    <IdContext.Provider value={{ gistId, setGistId }}>
       <div
-        className="flex h-full overflow-y-auto"
-        onPointerUp={(e) => e.isPrimary && setResize(false)}
-        onPointerLeave={(e) => e.isPrimary && setResize(false)}
-        onPointerMove={(e) => e.isPrimary && handleResize(e)}
-        onPointerDown={(e) => {
-          // Required for onPointerLeave to trigger when a touch pointer leaves
-          // https://stackoverflow.com/a/70976017/1137077
-          e.target.releasePointerCapture(e.pointerId);
-        }}
-        style={isRtl(i18n.language) ? { direction: "rtl" } : {}}
+        onMouseMove={handleResize}
+        onMouseUp={() => setResize(false)}
+        style={{ height: "100vh", overflow: "hidden", position: "relative" }}
       >
-        {layout.sidebar && (
-          <SidePanel resize={resize} setResize={setResize} width={width} />
-        )}
-        <div className="relative w-full h-full overflow-hidden">
-          <CanvasContextProvider className="h-full w-full">
-            <Canvas saveState={saveState} setSaveState={setSaveState} />
-          </CanvasContextProvider>
-          {!(layout.sidebar || layout.toolbar || layout.header) && (
-            <div className="fixed right-5 bottom-4">
-              <FloatingControls />
+        {/* Existing content */}
+        <div className="h-full flex flex-col overflow-hidden theme">
+          <ControlPanel
+            diagramId={id}
+            setDiagramId={setId}
+            title={title}
+            setTitle={setTitle}
+            lastSaved={lastSaved}
+            setLastSaved={setLastSaved}
+          />
+          <div
+            className="flex h-full overflow-y-auto"
+            onPointerUp={(e) => e.isPrimary && setResize(false)}
+            onPointerLeave={(e) => e.isPrimary && setResize(false)}
+            onPointerMove={(e) => e.isPrimary && handleResize(e)}
+            onPointerDown={(e) => {
+              // Required for onPointerLeave to trigger when a touch pointer leaves
+              // https://stackoverflow.com/a/70976017/1137077
+              e.target.releasePointerCapture(e.pointerId);
+            }}
+            style={isRtl(i18n.language) ? { direction: "rtl" } : {}}
+          >
+            {layout.sidebar && (
+              <SidePanel resize={resize} setResize={setResize} width={width} />
+            )}
+            <div className="relative w-full h-full overflow-hidden">
+              <CanvasContextProvider className="h-full w-full">
+                <Canvas saveState={saveState} setSaveState={setSaveState} />
+              </CanvasContextProvider>
+              {!(layout.sidebar || layout.toolbar || layout.header) && (
+                <div className="fixed right-5 bottom-4">
+                  <FloatingControls />
+                </div>
+              )}
             </div>
-          )}
+          </div>
+          <Modal
+            centered
+            size="medium"
+            closable={false}
+            hasCancel={false}
+            title={t("pick_db")}
+            okText={t("confirm")}
+            visible={showSelectDbModal}
+            onOk={() => {
+              if (selectedDb === "") return;
+              setDatabase(selectedDb);
+              setShowSelectDbModal(false);
+            }}
+            okButtonProps={{ disabled: selectedDb === "" }}
+          >
+            <div className="grid grid-cols-3 gap-4 place-content-center">
+              {Object.values(databases).map((x) => (
+                <div
+                  key={x.name}
+                  onClick={() => setSelectedDb(x.label)}
+                  className={`space-y-3 p-3 rounded-md border-2 select-none ${
+                    settings.mode === "dark"
+                      ? "bg-zinc-700 hover:bg-zinc-600"
+                      : "bg-zinc-100 hover:bg-zinc-200"
+                  } ${selectedDb === x.label ? "border-zinc-400" : "border-transparent"}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="font-semibold">{x.name}</div>
+                    {x.beta && (
+                      <Tag size="small" color="light-blue">
+                        Beta
+                      </Tag>
+                    )}
+                  </div>
+                  {x.image && (
+                    <img
+                      src={x.image}
+                      className="h-8"
+                      style={{
+                        filter:
+                          "opacity(0.4) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white)",
+                      }}
+                    />
+                  )}
+                  <div className="text-xs">{x.description}</div>
+                </div>
+              ))}
+            </div>
+          </Modal>
         </div>
       </div>
-      <Modal
-        centered
-        size="medium"
-        closable={false}
-        hasCancel={false}
-        title={t("pick_db")}
-        okText={t("confirm")}
-        visible={showSelectDbModal}
-        onOk={() => {
-          if (selectedDb === "") return;
-          setDatabase(selectedDb);
-          setShowSelectDbModal(false);
-        }}
-        okButtonProps={{ disabled: selectedDb === "" }}
-      >
-        <div className="grid grid-cols-3 gap-4 place-content-center">
-          {Object.values(databases).map((x) => (
-            <div
-              key={x.name}
-              onClick={() => setSelectedDb(x.label)}
-              className={`space-y-3 p-3 rounded-md border-2 select-none ${
-                settings.mode === "dark"
-                  ? "bg-zinc-700 hover:bg-zinc-600"
-                  : "bg-zinc-100 hover:bg-zinc-200"
-              } ${selectedDb === x.label ? "border-zinc-400" : "border-transparent"}`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="font-semibold">{x.name}</div>
-                {x.beta && (
-                  <Tag size="small" color="light-blue">
-                    Beta
-                  </Tag>
-                )}
-              </div>
-              {x.image && (
-                <img
-                  src={x.image}
-                  className="h-8"
-                  style={{
-                    filter:
-                      "opacity(0.4) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white)",
-                  }}
-                />
-              )}
-              <div className="text-xs">{x.description}</div>
-            </div>
-          ))}
-        </div>
-      </Modal>
-    </div>
+    </IdContext.Provider>
   );
 }

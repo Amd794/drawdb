@@ -251,6 +251,15 @@ const en = {
     bulk_update: "Bulk update",
     multiselect: "Multiselect",
     export_saved_data: "Export saved data",
+    cmdragon_tools: "More useful tools",
+    
+    // 404 page
+    page_not_found: "Page Not Found",
+    page_not_found_description: "The page you're looking for doesn't exist or has been moved.",
+    back_to_home: "Back to Home",
+    explore_more_tools: "Explore More Tools",
+    useful_links: "Useful Links",
+    contact_support: "Contact Support",
   },
 };
 

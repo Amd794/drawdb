@@ -17,17 +17,7 @@ export default function Navbar() {
           </Link>
           <div className="md:hidden flex gap-12">
             <Link
-              className="text-lg font-semibold hover:text-sky-800 transition-colors duration-300"
-              onClick={() =>
-                document
-                  .getElementById("features")
-                  .scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              Features
-            </Link>
-            <Link
-              to="/editor"
+              to="/"
               className="text-lg font-semibold hover:text-sky-800 transition-colors duration-300"
             >
               Editor
@@ -92,19 +82,7 @@ export default function Navbar() {
         width={window.innerWidth}
       >
         <Link
-          className="hover:bg-zinc-100 block p-3 text-base font-semibold"
-          onClick={() => {
-            document
-              .getElementById("features")
-              .scrollIntoView({ behavior: "smooth" });
-            setOpenMenu(false);
-          }}
-        >
-          Features
-        </Link>
-        <hr />
-        <Link
-          to="/editor"
+          to="/"
           className="hover:bg-zinc-100 block p-3 text-base font-semibold"
         >
           Editor

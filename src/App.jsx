@@ -3,7 +3,6 @@ import { useLayoutEffect } from "react";
 import Editor from "./pages/Editor";
 import BugReport from "./pages/BugReport";
 import Templates from "./pages/Templates";
-import LandingPage from "./pages/LandingPage";
 import SettingsContextProvider from "./context/SettingsContext";
 import { useSettings } from "./hooks";
 import NotFound from "./pages/NotFound";
@@ -14,9 +13,8 @@ export default function App() {
       <BrowserRouter>
         <RestoreScroll />
         <Routes>
-          <Route path="/" element={<LandingPage />} />
           <Route
-            path="/editor"
+            path="/"
             element={
               <ThemedPage>
                 <Editor />

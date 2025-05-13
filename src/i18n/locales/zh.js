@@ -245,6 +245,49 @@ const zh = {
     supported_types: "支持的文件类型：",
     bulk_update: "批量更新",
     multiselect: "多选",
+    templates: "模板",
+    database_schema_templates: "数据库模式模板",
+    database_templates_description: "一系列数据库实体关系图，帮助您快速开始或为应用程序架构提供灵感。",
+    default_templates: "默认模板",
+    your_templates: "您的模板",
+    fork: "复制",
+    no_custom_templates: "您没有保存自定义模板。",
+    how_to_save_template: "如何保存模板",
+    build_diagram: "构建图表",
+    build_template_description: "在编辑器中构建模板",
+    save_as_template_step: "保存为模板",
+    save_as_template_description: "编辑器 > 文件 > 保存为模板",
+    load_template: "加载模板",
+    load_template_description: "复制模板以在其基础上构建",
+    
+    // 数据库模板标题和描述
+    blog_database_schema: "博客数据库模式",
+    blog_database_schema_description: "一个博客数据库，包括用于文章、用户、评论和标签等表，便于存储和检索博客相关信息。",
+    
+    human_resources_schema: "人力资源模式",
+    human_resources_schema_description: "一个为管理公司员工和项目相关信息而设计的人力资源(HR)模式。",
+    
+    ecommerce_schema: "电子商务模式",
+    ecommerce_schema_description: "一个设计用于管理在线商店各方面的电子商务模式，包括产品、订单和客户信息。",
+    
+    library_schema: "图书馆模式",
+    library_schema_description: "一个为管理图书、类型、借阅和其他图书馆系统各方面而设计的模式。",
+    
+    bank_schema: "银行模式",
+    bank_schema_description: "一个为管理金融交易、账户、客户和其他银行业务而设计的金融模式。",
+    
+    university_schema: "大学模式",
+    university_schema_description: "一个为管理学生、课程、教师和其他大学相关数据而设计的教育模式。",
+    
+    cmdragon_tools: "更多好用工具",
+    
+    // 404页面
+    page_not_found: "页面未找到",
+    page_not_found_description: "您查找的页面不存在或已被移动。",
+    back_to_home: "返回首页",
+    explore_more_tools: "探索更多工具",
+    useful_links: "实用链接",
+    contact_support: "联系支持"
   },
 };
 

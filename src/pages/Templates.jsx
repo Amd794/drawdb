@@ -7,8 +7,11 @@ import { useLiveQuery } from "dexie-react-hooks";
 import Thumbnail from "../components/Thumbnail";
 import logo_light from "../assets/logo_light_160.png";
 import template_screenshot from "../assets/template_screenshot.png";
+import { useTranslation } from "react-i18next";
 
 export default function Templates() {
+  const { t } = useTranslation();
+  
   const defaultTemplates = useLiveQuery(() =>
     db.templates.where({ custom: 0 }).toArray()
   );
@@ -22,18 +25,30 @@ export default function Templates() {
   };
 
   const editTemplate = (id) => {
-    const newWindow = window.open("/editor", "_blank");
+    const newWindow = window.open("/", "_blank");
     newWindow.name = "t " + id;
   };
 
   const forkTemplate = (id) => {
-    const newWindow = window.open("/editor", "_blank");
+    const newWindow = window.open("/", "_blank");
     newWindow.name = "lt " + id;
+  };
+  
+  // 获取模板的翻译标题
+  const getTemplateTitle = (title) => {
+    const titleKey = title?.toLowerCase().replace(/\s+/g, "_");
+    return t(titleKey, title); // 如果没有翻译，使用原始标题
+  };
+
+  // 获取模板的翻译描述
+  const getTemplateDescription = (title, description) => {
+    const descriptionKey = `${title?.toLowerCase().replace(/\s+/g, "_")}_description`;
+    return t(descriptionKey, description); // 如果没有翻译，使用原始描述
   };
 
   useEffect(() => {
-    document.title = "Templates | drawDB";
-  }, []);
+    document.title = `${t('templates')} | drawDB`;
+  }, [t]);
 
   return (
     <div>
@@ -48,24 +63,32 @@ export default function Templates() {
               />
             </Link>
             <div className="ms-4 sm:text-sm xl:text-xl text-xl font-semibold">
-              Templates
+              {t('templates')}
             </div>
           </div>
+          <a 
+            href="https://tools.cmdragon.cn/zh" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="flex items-center gap-2 px-4 py-2 border border-blue-300 rounded-md text-blue-500 hover:text-blue-700 hover:bg-blue-50 transition-colors"
+          >
+            <i className="bi bi-tools"></i>
+            <span>{t('cmdragon_tools')}</span>
+          </a>
         </div>
         <hr className="border-zinc-300" />
         <div className="xl:px-20 sm:px-6 px-12 py-6">
           <div className="w-full md:w-[75%] xl:w-[50%] mb-2">
             <div className="text-2xl sm:text-lg font-semibold mb-2 text-neutral-800">
-              Database schema templates
+              {t('database_schema_templates')}
             </div>
             <div className="text-sm text-neutral-700">
-              A compilation of database entity relationship diagrams to give you
-              a quick start or inspire your application&apos;s architecture.
+              {t('database_templates_description')}
             </div>
           </div>
           <Tabs>
             <TabPane
-              tab={<span className="mx-2">Default templates</span>}
+              tab={<span className="mx-2">{t('default_templates')}</span>}
               itemKey="1"
             >
               <div className="grid xl:grid-cols-3 grid-cols-2 sm:grid-cols-1 gap-10 my-6">
@@ -73,6 +96,8 @@ export default function Templates() {
                   <div
                     key={i}
                     className="bg-gray-100 hover:translate-y-[-6px] transition-all duration-300 border rounded-md"
+                    onClick={() => forkTemplate(t.id)}
+                    style={{ cursor: 'pointer' }}
                   >
                     <div className="h-48">
                       <Thumbnail
@@ -85,23 +110,17 @@ export default function Templates() {
                     <div className="px-4 py-3">
                       <div className="flex justify-between">
                         <div className="text-lg font-bold text-zinc-700">
-                          {t.title}
+                          {getTemplateTitle(t.title)}
                         </div>
-                        <button
-                          className="border rounded-sm px-2 py-1 bg-white hover:bg-gray-200 transition-all duration-300"
-                          onClick={() => forkTemplate(t.id)}
-                        >
-                          <i className="fa-solid fa-code-fork"></i>
-                        </button>
                       </div>
-                      <div>{t.description}</div>
+                      <div>{getTemplateDescription(t.title, t.description)}</div>
                     </div>
                   </div>
                 ))}
               </div>
             </TabPane>
             <TabPane
-              tab={<span className="mx-2">Your templates</span>}
+              tab={<span className="mx-2">{t('your_templates')}</span>}
               itemKey="2"
             >
               {customTemplates?.length > 0 ? (
@@ -119,14 +138,6 @@ export default function Templates() {
                           <div className="text-lg font-bold text-zinc-700">
                             {c.title}
                           </div>
-                          <div>
-                            <button
-                              className="me-1 border rounded-sm px-2 py-1 bg-white hover:bg-gray-200 transition-all duration-300"
-                              onClick={() => forkTemplate(c.id)}
-                            >
-                              <i className="fa-solid fa-code-fork"></i>
-                            </button>
-                          </div>
                         </div>
                         <div className="flex justify-around mt-2">
                           <button
@@ -134,7 +145,7 @@ export default function Templates() {
                             onClick={() => editTemplate(c.id)}
                           >
                             <i className="bi bi-pencil-fill"></i>
-                            <div className="ms-1.5 font-semibold">Edit</div>
+                            <div className="ms-1.5 font-semibold">{t('edit')}</div>
                           </button>
                           <div className="border-l border-gray-300 mx-2" />
                           <button
@@ -142,7 +153,7 @@ export default function Templates() {
                             onClick={() => deleteTemplate(c.id)}
                           >
                             <IconDeleteStroked />
-                            <div className="ms-1.5 font-semibold">Delete</div>
+                            <div className="ms-1.5 font-semibold">{t('delete')}</div>
                           </button>
                         </div>
                       </div>
@@ -157,7 +168,7 @@ export default function Templates() {
                     bordered
                     icon={null}
                     closeIcon={null}
-                    description={<div>You have no custom templates saved.</div>}
+                    description={<div>{t('no_custom_templates')}</div>}
                   />
                   <div className="grid grid-cols-5 sm:grid-cols-1 gap-4 place-content-center my-4">
                     <img
@@ -166,20 +177,20 @@ export default function Templates() {
                     />
                     <div className="col-span-2 sm:cols-span-1">
                       <div className="text-xl font-bold my-4">
-                        How to save a template
+                        {t('how_to_save_template')}
                       </div>
                       <Steps direction="vertical" style={{ margin: "12px" }}>
                         <Steps.Step
-                          title="Build a diagram"
-                          description="Build the template in the editor"
+                          title={t('build_diagram')}
+                          description={t('build_template_description')}
                         />
                         <Steps.Step
-                          title="Save as template"
-                          description="Editor > File > Save as template"
+                          title={t('save_as_template_step')}
+                          description={t('save_as_template_description')}
                         />
                         <Steps.Step
-                          title="Load a template"
-                          description="Fork a template to build on"
+                          title={t('load_template')}
+                          description={t('load_template_description')}
                         />
                       </Steps>
                     </div>
@@ -191,9 +202,6 @@ export default function Templates() {
         </div>
       </div>
       <hr className="border-zinc-300 my-1" />
-      <div className="text-center text-sm py-3">
-        &copy; 2024 <strong>drawDB</strong> - All right reserved.
-      </div>
     </div>
   );
 }

@@ -240,9 +240,6 @@ export default function BugReport() {
           theme === "dark" ? "border-zinc-700" : "border-zinc-300"
         } my-1`}
       />
-      <div className="text-center text-sm py-3">
-        &copy; 2024 <strong>drawDB</strong> - All right reserved.
-      </div>
     </>
   );
 }
